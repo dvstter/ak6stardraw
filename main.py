@@ -76,21 +76,27 @@ if __name__ == "__main__":
 	draw_times = sorted(draw_times)
 	performance = [d[x] for x in draw_times]
 	ratios = []
+	ratios2 = []
 	for i in draw_times:
 		ratios.append(d[i] / s)
+	for i in range(len(ratios)):
+		ratios2 += [sum(ratios[0:i+1])]
 	
 	fig, ax1 = plt.subplots(figsize=(8, 8))
-	color = "tab:blue"
+	plt.grid(ls="-.", lw=0.5)
+	colorb = "tab:blue"
+	colorr = "tab:red"
+	
 	ax1.bar(draw_times, performance, align="center", width=5)
-	ax1.tick_params(axis="y", labelcolor=color)
-	ax1.set_ylabel("frequency", color=color)
+	ax1.tick_params(axis="y", labelcolor=colorb)
+	ax1.set_ylabel("frequency", color=colorb)
 	ax1.set_xlabel("times")
 	
 	ax2 = plt.twinx()
-	color = "tab:red"
-	ax2.set_ylabel("percentage", color=color)
-	ax2.tick_params(axis='y', labelcolor="tab:red")
-	ax2.plot(draw_times, ratios, color=color)
+	ax2.set_ylabel("percentage", color=colorr)
+	ax2.tick_params(axis='y', labelcolor=colorr)
+	ax2.plot(draw_times, ratios2, color=colorr)
 
+	plt.xlim(5, 305)
 	plt.title("Designated 6* draw times")
 	fig.savefig("result.png", dpi=200)
